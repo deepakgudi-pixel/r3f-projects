@@ -1,35 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Canvas } from "@react-three/fiber";
+import { Suspense } from "react";
+import Model from "./components/model";
+import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
+  
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Canvas gl={{ toneMappingExposure: 0.7 }}>
+      <Suspense fallback={null}>
+        <spotLight angle={1} position={[-80, 200, -100]} intensity={1}/>
+        <Model position={[-8, 0, -2]} scale={20} rotation-y={-Math.PI / 4} />
+      </Suspense>
+      <OrbitControls
+        enableZoom={false}
+        enablePan={false}
+        minPolarAngle={0}
+        maxPolarAngle={Math.PI / 2.25}
+        makeDefault
+      />
+      <PerspectiveCamera makeDefault position={[-30, 100, 120]} fov={35} />
+    </Canvas>
+  );
 }
-
-export default App
